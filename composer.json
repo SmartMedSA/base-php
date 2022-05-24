@@ -1,98 +1,10 @@
 {
-	"name": "med/core",
-	"description": "This project is part of Med.tn project",
-	"type": "project",
-	"license": "proprietary",
-	"minimum-stability": "dev",
-	"prefer-stable": true,
-	"require": {
-		"php": ">=8.0",
-		"ext-ctype": "*",
-		"ext-curl": "*",
-		"ext-iconv": "*",
-		"ext-json": "*",
-		"ext-openssl": "*",
-		"ext-redis": "*",
-		"symfony/proxy-manager-bridge": "5.4.*",
-		"symfony/runtime": "5.4.*",
-		"symfony/twig-bundle": "5.4.*",
-		"symfony/validator": "5.4.*",
-		"symfony/yaml": "5.4.*"
-	},
-	"config": {
-		"optimize-autoloader": true,
-		"preferred-install": {
-			"*": "dist"
-		},
-		"sort-packages": true
-	},
-	"autoload": {
-		"psr-4": {
-			"App\\": "src/"
-		}
-	},
-	"autoload-dev": {
-		"psr-4": {
-			"App\\Tests\\": "tests/"
-		}
-	},
-	"scripts": {
-		"auto-scripts": {
-			"cache:clear": "symfony-cmd",
-			"assets:install %PUBLIC_DIR%": "symfony-cmd",
-			"ckeditor:install": "symfony-cmd"
-		},
-		"schema:validate": "bin/console doctrine:schema:validate --skip-sync",
-		"type:check": "php vendor/vimeo/psalm/psalm --no-cache",
-		"type:fix": "php vendor/vimeo/psalm/psalter --issues=all src",
-		"cs:check": "php vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --dry-run --ansi",
-		"cs:fix": "php vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix --ansi",
-		"phpmd": "php vendor/bin/phpmd src/ text phpmd.xml",
-		"check": [
-			"@schema:validate",
-			"@cs:check",
-			"@type:check",
-			"@phpmd"
-		],
-		"drop-db-test": "php bin/console d:s:d -f --env=test",
-		"create-db-test": "php bin/console d:s:c --env=test",
-		"load-fixuters-test": "yes | php bin/console d:f:l --env=test --group=featuresFixtures --group=permissionFixtures --group=contactTypeFixtures --group=test --group=testMedicalEntity",
-		"phpunit": "php bin/phpunit",
-		"test": [
-			"@drop-db-test",
-			"@create-db-test",
-			"@load-fixuters-test",
-			"@phpunit"
-		],
-		"post-install-cmd": [
-			"@auto-scripts"
-		],
-		"post-update-cmd": [
-			"@auto-scripts"
-		]
-	},
-	"conflict": {
-		"symfony/symfony": "*"
-	},
-	"extra": {
-		"symfony": {
-			"allow-contrib": false,
-			"require": "5.4.*"
-		}
-	},
-	"require-dev": {
-		"dama/doctrine-test-bundle": "^6.7",
-		"doctrine/doctrine-fixtures-bundle": "^3.4",
-		"friendsofphp/php-cs-fixer": "^3.3",
-		"phpmd/phpmd": "^2.11",
-		"phpunit/phpunit": "^9.5",
-		"symfony/browser-kit": "5.4.*",
-		"symfony/css-selector": "5.4.*",
-		"symfony/maker-bundle": "^1.30",
-		"symfony/phpunit-bridge": "^5.4",
-		"symfony/stopwatch": "^5.4",
-		"symfony/var-dumper": "^5.4",
-		"symfony/web-profiler-bundle": "^5.4",
-		"vimeo/psalm": "^4.20"
-	}
+    "name": "vendor-name/project-name",
+    "description": "This is a very cool package!",
+    "version": "0.3.0",
+    "type": "library",
+    "keywords": ["logging", "cool", "awesome"],
+    "homepage": "https://jolicode.com",
+    "time": "2012-12-21",
+    "license": "MIT"
 }
