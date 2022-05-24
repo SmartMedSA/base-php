@@ -4,7 +4,6 @@ APP_SERVICE_NAME := app-name
 PMA_SERVICE_NAME := phpmyadmin
 XDEBUG_SERVICE_NAME := xdebug
 TEST_SERVICE_NAME := test
-S3_SERVICE_NAME := s3server
 
 REPO = $(CI_REGISTRY_IMAGE)
 
@@ -106,9 +105,7 @@ dcps:
 	-$(eval XDEBUG_PORT := $(shell docker inspect $(XDEBUG_ID) --format='{{json (index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' 2> /dev/null))
 	@echo $(XDEBUG_SERVICE_NAME): $(if $(XDEBUG_PORT), "http://localhost:$(XDEBUG_PORT)", "port not found.")
 
-	-$(eval S3_ID := $(shell docker-compose  --profile xdebug ps -q $(S3_SERVICE_NAME)))
 	-$(eval S3_PORT := $(shell docker inspect $(S3_ID) --format='{{json (index (index .NetworkSettings.Ports "9000/tcp") 0).HostPort}}' 2> /dev/null))
-	@echo $(S3_SERVICE_NAME): $(if $(S3_PORT), "http://localhost:$(S3_PORT)", "port not found.")
 
 # New line before the ps.
 	@echo

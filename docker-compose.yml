@@ -39,12 +39,11 @@ services:
     environment:
       - PHP_CLI_MEMORY_LIMIT="1024M"
     ports:
-      - "3200:8080"
+      - "${APP_PORT}:8080"
     volumes:
       - ./:/var/www
     networks:
       - dev
-      - med-search
 
   xdebug:
     <<: *app-name
@@ -53,7 +52,7 @@ services:
       - .env.local
       - .env.xdebug
     ports:
-      - "3201:8080"
+      - "8080"
     extra_hosts:
       # https://stackoverflow.com/a/67158212
       # only works with Docker v20.10+
@@ -67,30 +66,10 @@ services:
       - .env.local
       - .env.test
 
-  redis:
-    image: wodby/redis:6
-    networks:
-      - dev
-
-  s3server:
-    image: minio/minio:RELEASE.2021-06-17T00-10-46Z
-    command: server /data
-    ports:
-      - "9000"
-    env_file:
-      - .env.local
-    volumes:
-      - ./.vlm/s3server:/data
-    networks:
-      - dev
-
 networks:
   dev:
     external: false
     name: 'app-name_dev'
-  med-search:
-    external: true
-    name: 'med-search_dev'
 
 volumes:
   db-app-name:
