@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/base-php/base-php:latest
+FROM registry.gitlab.com/base-php:latest
 
 COPY composer.json composer.lock ${APP_ROOT}/
 
