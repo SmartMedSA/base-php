@@ -8,7 +8,13 @@
         "ext-intl": "*",
         "ext-json": "*",
         "baldinof/roadrunner-bundle": "^2.1",
-        "symfony/runtime": "^5.3",
+        "composer/package-versions-deprecated": "1.11.99.5",
+        "doctrine/annotations": "^1.0",
+        "doctrine/doctrine-bundle": "^2",
+        "doctrine/doctrine-migrations-bundle": "^2",
+        "doctrine/orm": "^2",
+        "phpdocumentor/reflection-docblock": "^5.3",
+        "phpstan/phpdoc-parser": "^1.5",
         "symfony/asset": "^5.4",
         "symfony/console": "^5.4",
         "symfony/dotenv": "^5.4",
@@ -20,31 +26,43 @@
         "symfony/mailer": "^5.4",
         "symfony/monolog-bundle": "^3.1",
         "symfony/notifier": "^5.4",
-        "symfony/orm-pack": "^1.0",
         "symfony/polyfill-php80": "^1.15",
         "symfony/process": "^5.4",
-        "symfony/serializer-pack": "^1.0",
+        "symfony/property-access": "^5.4",
+        "symfony/property-info": "^5.4",
+        "symfony/runtime": "^5.3",
+        "symfony/serializer": "^5.4",
         "symfony/string": "^5.4",
-        "symfony/twig-pack": "^1.0",
+        "symfony/twig-bundle": "^5.4",
         "symfony/validator": "^5.4",
         "symfony/web-link": "^5.4",
-        "symfony/yaml": "^5.4"
+        "symfony/yaml": "^5.4",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "friendsofphp/php-cs-fixer": "^2.16",
         "liip/test-fixtures-bundle": "^1.0.0",
-        "symfony/debug-pack": "^1.0",
+        "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "^5.4",
+        "symfony/css-selector": "^5.4",
+        "symfony/debug-bundle": "^5.4",
         "symfony/maker-bundle": "^1.5",
-        "symfony/profiler-pack": "^1.0",
-        "symfony/test-pack": "^1.0",
+        "symfony/phpunit-bridge": "^6.0",
+        "symfony/stopwatch": "^5.4",
+        "symfony/web-profiler-bundle": "^5.4",
         "vimeo/psalm": "^3.8"
     },
     "config": {
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
     },
     "autoload": {
         "psr-4": {

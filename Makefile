@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-APP_SERVICE_NAME := app-name
+APP_SERVICE_NAME := app
 PMA_SERVICE_NAME := phpmyadmin
 XDEBUG_SERVICE_NAME := xdebug
 TEST_SERVICE_NAME := test
@@ -12,7 +12,7 @@ ifeq ($(REPO),)
 	REPO = $(shell basename $(CURDIR))_$(APP_SERVICE_NAME)
 endif
 
-NAME = app-name
+NAME = app
 
 ifeq ($(IMAGE_TAG),)
     IMAGE_TAG ?= latest
@@ -113,7 +113,7 @@ dcps:
 
 # Rebuild images, remove orphans, and docker-compose up.
 dcupd:
-	docker-compose up -d --build --remove-orphans
+	docker-compose --env-file .env.local up -d --build --remove-orphans
 
 # Stop all runner containers.
 dcstop:
