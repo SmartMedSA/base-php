@@ -5,7 +5,7 @@ services:
     image: mysql:8.0.22
     command: mysqld --sql_mode=""
     volumes:
-      - db-app-name:/var/lib/mysql
+      - db-app:/var/lib/mysql
     env_file:
       - .env.local
     environment:
@@ -31,8 +31,8 @@ services:
     networks:
       - dev
 
-  app-name: &app-name
-    image: app-name
+  app: &app
+    image: app
     build: .
     env_file:
       - .env.local
@@ -46,7 +46,7 @@ services:
       - dev
 
   xdebug:
-    <<: *app-name
+    <<: *app
     profiles: ["xdebug"]
     env_file:
       - .env.local
@@ -59,7 +59,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   test:
-    <<: *app-name
+    <<: *app
     profiles:
       - test
     env_file:
@@ -69,7 +69,7 @@ services:
 networks:
   dev:
     external: false
-    name: 'app-name_dev'
+    name: 'app_dev'
 
 volumes:
-  db-app-name:
+  db-app:
