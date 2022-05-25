@@ -1,4 +1,6 @@
 {
+    "name" : "med/project",
+    "description": "project description",
     "type": "project",
     "license": "MIT",
     "require": {
