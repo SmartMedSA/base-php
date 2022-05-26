@@ -33,9 +33,7 @@ services:
 
   app: &app
     image: app
-    build:
-      dockerfile: Dockerfile.sub
-      context: .
+    build: .
     env_file:
       - .env.local
     environment:
