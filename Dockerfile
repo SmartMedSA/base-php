@@ -4,7 +4,7 @@ FROM php:8.0.14-cli
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-ENV APP_ROOT="/var/www/"
+ENV APP_ROOT="/var/www"
 
 RUN set -xe; \
     \
