@@ -34,12 +34,13 @@ services:
   app: &app
     image: app
     build: .
+    command: ["rr", "serve", "-c", ".rr.dev.yaml"]
     env_file:
       - .env.local
     environment:
       - PHP_CLI_MEMORY_LIMIT="1024M"
     ports:
-      - "${APP_PORT}:8080"
+      - 8080
     volumes:
       - ./:/var/www
     networks:

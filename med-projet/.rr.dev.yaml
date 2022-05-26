@@ -1,17 +1,15 @@
+version: "2.7"
+
 server:
-  command: "php bin/console baldinof:roadrunner:worker"
-  # If you are using symfony 5.3+ and the new Runtime component:
-  # remove the previous `command` line above and uncomment the line below.
-  #command: "php public/index.php"
+  command: "php public/index.php"
+  # If you are not using symfony 5.3+ and the new Runtime component:
+  # remove the previous `command` line above and uncomment the line below to use the deprecated command.
+  # command: "php bin/console baldinof:roadrunner:worker"
   env:
     - APP_RUNTIME: Baldinof\RoadRunnerBundle\Runtime\Runtime
-    - XDEBUG_SESSION: "1"
 
 http:
   address: 0.0.0.0:8080
-  pool:
-    num_workers: 1
-    debug: true
   middleware: [ "static", "gzip" ]
   uploads:
     forbid: [ ".php", ".exe", ".bat" ]
@@ -21,7 +19,6 @@ http:
 
 logs:
   mode: development
-  pool.debug: true
   channels:
     http:
       level: debug # Log all http requests, set to info to disable
@@ -31,14 +28,11 @@ logs:
     metrics:
       level: debug
 
-rpc:
-  listen: tcp://127.0.0.1:6001
-
 reload:
   enabled: true
-  interval: 2s
+  interval: 1s
   patterns: [".php", ".yaml"]
   services:
     http:
-      dirs: ["src", "public", "templates"]
+      dirs: ["."]
       recursive: true

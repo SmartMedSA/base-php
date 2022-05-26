@@ -2,5 +2,4 @@
 .env*
 vendor/
 var/
-/config/jwt/*.pem
 .vlm/

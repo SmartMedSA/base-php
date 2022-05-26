@@ -4,8 +4,7 @@ FROM php:8.0.14-cli
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-ENV APP_ROOT="/var/www/"  \
-    CONFIG_DIR="/var/www/config/"
+ENV APP_ROOT="/var/www/"
 
 RUN set -xe; \
     \
@@ -73,10 +72,5 @@ COPY docker/php/templates /etc/gotpl
 COPY docker/php/docker-entrypoint.sh /
 COPY docker/php/bin /usr/local/bin/
 COPY docker/php/docker-entrypoint-init.d/ /docker-entrypoint-init.d/
-COPY . ${APP_ROOT}
-
-
-
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["rr", "serve", "-c", ".rr.dev.yaml"]
