@@ -1,7 +1,10 @@
+# Editors / IDEs
+.idea/
+.vscode/
+
 # Cache and logs (Symfony2)
 /app/cache/*
 /app/logs/*
-.idea
 !app/cache/.gitkeep
 !app/logs/.gitkeep
 
