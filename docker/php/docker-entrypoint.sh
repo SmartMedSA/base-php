@@ -46,6 +46,7 @@ disable_modules() {
     fi
 }
 
+sudo init_container
 process_templates
 disable_modules
 

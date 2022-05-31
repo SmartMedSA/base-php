@@ -33,14 +33,18 @@ services:
 
   app: &app
     image: app
-    build: .
+    build:
+      context: .
+      args:
+        UID: ${UID}
+        GID: ${GID}
     command: ["rr", "serve", "-c", ".rr.dev.yaml"]
     env_file:
       - .env.local
     environment:
       - PHP_CLI_MEMORY_LIMIT="1024M"
     ports:
-      - 8080
+      - "8080"
     volumes:
       - ./:/var/www
     networks:

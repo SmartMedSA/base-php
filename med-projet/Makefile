@@ -13,6 +13,8 @@ ifeq ($(REPO),)
 endif
 
 NAME = app
+UID = $(shell id -u)
+GID= $(shell id -g)
 
 ifeq ($(IMAGE_TAG),)
     IMAGE_TAG ?= latest

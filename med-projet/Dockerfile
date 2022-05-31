@@ -1,5 +1,27 @@
 FROM registry.gitlab.com/new-med/base-php:latest
 
+ARG UID=2000
+ARG GID=2000
+
+USER root
+
+RUN set -xe; \
+    group_exists=$(getent group www-data | cut -d: -f3); \
+    if [ ${group_exists} != ${GID}]; then \
+        groupmod --gid ${GID} www-data; \
+    fi; \
+    user_exists=$(id www-data -u); \
+    if [ ${user_exists} != ${UID} ]; then \
+            usermod --uid ${UID} www-data ; \
+    fi; \
+    install -o www-data -g www-data -d \
+        "${APP_ROOT}"; \
+    chown -R www-data:www-data \
+        "${PHP_INI_DIR}/conf.d";
+
+
+USER www-data
+
 COPY composer.json composer.lock "${APP_ROOT}/"
 
 RUN set -xe; \
