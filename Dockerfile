@@ -23,6 +23,7 @@ RUN set -xe; \
     libonig-dev \
     libxslt-dev \
     librabbitmq-dev \
+    sudo \
     zlib1g-dev \
     libssh-dev ; \
     \
@@ -70,8 +71,13 @@ RUN groupadd --gid 2000 www-data && useradd --shell /bin/bash --gid 2000 --uid 2
     install -o www-data -g www-data -d \
         "${APP_ROOT}"; \
     chown -R www-data:www-data \
-        "${PHP_INI_DIR}/conf.d";
-
+        "${PHP_INI_DIR}/conf.d";   \
+    chmod 755 /usr/local/bin/init_container; \
+    mkdir -p /etc/sudoers.d; \
+     { \
+         echo 'Defaults env_keep += "APP_ROOT FILES_DIR" ' ; \
+         echo 'www-data ALL=NOPASSWD: /usr/local/bin/init_container ' ; \
+     } | tee /etc/sudoers.d/www-data;
 
 # Copy RoadRunner
 COPY --from=rr /usr/bin/rr /usr/bin/rr

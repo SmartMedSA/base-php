@@ -44,7 +44,7 @@ services:
     environment:
       - PHP_CLI_MEMORY_LIMIT="1024M"
     ports:
-      - 8080
+      - "8080"
     volumes:
       - ./:/var/www
     networks:
