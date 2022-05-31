@@ -2,6 +2,8 @@ FROM spiralscout/roadrunner:2.6.4 as rr
 
 FROM php:8.0.14-cli
 
+SHELL ["/bin/bash", "-c"]
+
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 ENV APP_ROOT="/var/www"
@@ -63,14 +65,22 @@ RUN set -xe; \
     \
     docker-php-ext-configure intl;
 
+# Create a group and user
+RUN groupadd --gid 2000 www-data && useradd --shell /bin/bash --gid 2000 --uid 2000 www-data; \
+    install -o www-data -g www-data -d \
+        "${APP_ROOT}"; \
+    chown -R www-data:www-data \
+        "${PHP_INI_DIR}/conf.d";
+
+
 # Copy RoadRunner
 COPY --from=rr /usr/bin/rr /usr/bin/rr
 
+ENTRYPOINT ["/docker-entrypoint.sh"]
+USER www-data
 WORKDIR ${APP_ROOT}
 
 COPY docker/php/templates /etc/gotpl
 COPY docker/php/docker-entrypoint.sh /
 COPY docker/php/bin /usr/local/bin/
 COPY docker/php/docker-entrypoint-init.d/ /docker-entrypoint-init.d/
-
-ENTRYPOINT ["/docker-entrypoint.sh"]

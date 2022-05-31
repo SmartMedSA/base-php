@@ -33,7 +33,11 @@ services:
 
   app: &app
     image: app
-    build: .
+    build:
+      context: .
+      args:
+        UID: ${UID}
+        GID: ${GID}
     command: ["rr", "serve", "-c", ".rr.dev.yaml"]
     env_file:
       - .env.local
