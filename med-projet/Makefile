@@ -106,32 +106,32 @@ dcps:
 
 # New line before the ps.
 	@echo
-	@docker-compose ps -a
+	@$(DOCKER_COMPOSE_CMD) ps -a
 
 # Rebuild images, remove orphans, and docker-compose up.
 dcupd:
-	docker-compose up -d --build --remove-orphans
+	$(DOCKER_COMPOSE_CMD) up -d --build --remove-orphans
 
 # Stop all runner containers.
 dcstop:
-	docker-compose stop
+	$(DOCKER_COMPOSE_CMD) stop
 
 # Get app-name container logs.
 dclogs:
-	docker-compose logs --tail=100 -f $(APP_SERVICE_NAME)
+	$(DOCKER_COMPOSE_CMD) logs --tail=100 -f $(APP_SERVICE_NAME)
 
 # Get a bash inside running app-name container.
 dcshell:
-	docker-compose exec $(APP_SERVICE_NAME) bash
+	$(DOCKER_COMPOSE_CMD) exec $(APP_SERVICE_NAME) bash
 
 # Start app-name with xdebug enabled.
 dcxdbg:
-	docker-compose --profile $(XDEBUG_SERVICE_NAME) up -d --build --remove-orphans
-	docker-compose --profile $(XDEBUG_SERVICE_NAME) logs --tail=100 -f $(XDEBUG_SERVICE_NAME)
+	$(DOCKER_COMPOSE_CMD) --profile $(XDEBUG_SERVICE_NAME) up -d --build --remove-orphans
+	$(DOCKER_COMPOSE_CMD) --profile $(XDEBUG_SERVICE_NAME) logs --tail=100 -f $(XDEBUG_SERVICE_NAME)
 
 # Start app-name test
 dctest:
-	docker-compose --profile $(TEST_SERVICE_NAME) run --rm test composer test
+	$(DOCKER_COMPOSE_CMD) --profile $(TEST_SERVICE_NAME) run --rm test composer test
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Include the .d makefiles.
