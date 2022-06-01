@@ -15,6 +15,8 @@ NAME = app
 UID = $(shell id -u)
 GID = $(shell id -g)
 
+DOCKER_COMPOSE_CMD := env UID=${UID} GID=${GID} docker-compose
+
 ifeq ($(IMAGE_TAG),)
     IMAGE_TAG ?= latest
 endif
@@ -94,12 +96,12 @@ ci.build: pull build push
 
 # Get services URLs and docker-compose process status.
 dcps:
-	$(eval APP_ID := $(shell env UID=${UID} GID=${GID} docker-compose ps -q $(APP_SERVICE_NAME)))
-	$(eval APP_PORT := $(shell env UID=${UID} GID=${GID} docker inspect $(APP_ID) --format='{{json (index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' 2> /dev/null))
+	$(eval APP_ID := $(shell ${DOCKER_COMPOSE_CMD} ps -q $(APP_SERVICE_NAME)))
+	$(eval APP_PORT := $(shell docker inspect $(APP_ID) --format='{{json (index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' 2> /dev/null))
 	@echo $(APP_SERVICE_NAME): $(if $(APP_PORT), "http://localhost:$(APP_PORT)", "port not found.")
 
-	-$(eval XDEBUG_ID := $(shell env UID=${UID} GID=${GID} docker-compose  --profile xdebug ps -q $(XDEBUG_SERVICE_NAME)))
-	-$(eval XDEBUG_PORT := $(shell env UID=${UID} GID=${GID} docker inspect $(XDEBUG_ID) --format='{{json (index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' 2> /dev/null))
+	-$(eval XDEBUG_ID := $(shell ${DOCKER_COMPOSE_CMD} --profile xdebug ps -q $(XDEBUG_SERVICE_NAME)))
+	-$(eval XDEBUG_PORT := $(shell docker inspect $(XDEBUG_ID) --format='{{json (index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' 2> /dev/null))
 	@echo $(XDEBUG_SERVICE_NAME): $(if $(XDEBUG_PORT), "http://localhost:$(XDEBUG_PORT)", "port not found.")
 
 # New line before the ps.
