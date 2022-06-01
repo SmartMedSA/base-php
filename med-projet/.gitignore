@@ -57,3 +57,5 @@
 
 .bash_history
 .composer/
+
+.phpunit.result.cache
