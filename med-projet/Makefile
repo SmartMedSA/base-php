@@ -1,7 +1,6 @@
 SHELL := /bin/bash
 
 APP_SERVICE_NAME := app
-PMA_SERVICE_NAME := phpmyadmin
 XDEBUG_SERVICE_NAME := xdebug
 TEST_SERVICE_NAME := test
 
@@ -99,9 +98,7 @@ dcps:
 	$(eval APP_PORT := $(shell docker inspect $(APP_ID) --format='{{json (index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' 2> /dev/null))
 	@echo $(APP_SERVICE_NAME): $(if $(APP_PORT), "http://localhost:$(APP_PORT)", "port not found.")
 
-	$(eval PMA_ID := $(shell docker-compose ps -q $(PMA_SERVICE_NAME)))
 	$(eval PMA_PORT := $(shell docker inspect $(PMA_ID) --format='{{json (index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' 2> /dev/null))
-	@echo $(PMA_SERVICE_NAME): $(if $(PMA_PORT), "http://localhost:$(PMA_PORT)", "port not found.")
 
 	-$(eval XDEBUG_ID := $(shell docker-compose  --profile xdebug ps -q $(XDEBUG_SERVICE_NAME)))
 	-$(eval XDEBUG_PORT := $(shell docker inspect $(XDEBUG_ID) --format='{{json (index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' 2> /dev/null))
