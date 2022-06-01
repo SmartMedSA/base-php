@@ -19,7 +19,6 @@ RUN set -xe; \
     chown -R www-data:www-data \
         "${PHP_INI_DIR}/conf.d";
 
-
 USER www-data
 
 COPY composer.json composer.lock "${APP_ROOT}/"

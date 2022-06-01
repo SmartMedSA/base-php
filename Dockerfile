@@ -72,7 +72,6 @@ RUN groupadd --gid 2000 www-data && useradd --shell /bin/bash --gid 2000 --uid 2
         "${APP_ROOT}"; \
     chown -R www-data:www-data \
         "${PHP_INI_DIR}/conf.d";   \
-    chmod 755 /usr/local/bin/init_container; \
     mkdir -p /etc/sudoers.d; \
      { \
          echo 'Defaults env_keep += "APP_ROOT FILES_DIR" ' ; \

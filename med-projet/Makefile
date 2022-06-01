@@ -1,7 +1,6 @@
 SHELL := /bin/bash
 
 APP_SERVICE_NAME := app
-PMA_SERVICE_NAME := phpmyadmin
 XDEBUG_SERVICE_NAME := xdebug
 TEST_SERVICE_NAME := test
 
@@ -14,7 +13,9 @@ endif
 
 NAME = app
 UID = $(shell id -u)
-GID= $(shell id -g)
+GID = $(shell id -g)
+
+DOCKER_COMPOSE_CMD := env UID=${UID} GID=${GID} docker-compose
 
 ifeq ($(IMAGE_TAG),)
     IMAGE_TAG ?= latest
@@ -95,48 +96,42 @@ ci.build: pull build push
 
 # Get services URLs and docker-compose process status.
 dcps:
-	$(eval APP_ID := $(shell docker-compose ps -q $(APP_SERVICE_NAME)))
+	$(eval APP_ID := $(shell ${DOCKER_COMPOSE_CMD} ps -q $(APP_SERVICE_NAME)))
 	$(eval APP_PORT := $(shell docker inspect $(APP_ID) --format='{{json (index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' 2> /dev/null))
 	@echo $(APP_SERVICE_NAME): $(if $(APP_PORT), "http://localhost:$(APP_PORT)", "port not found.")
 
-	$(eval PMA_ID := $(shell docker-compose ps -q $(PMA_SERVICE_NAME)))
-	$(eval PMA_PORT := $(shell docker inspect $(PMA_ID) --format='{{json (index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' 2> /dev/null))
-	@echo $(PMA_SERVICE_NAME): $(if $(PMA_PORT), "http://localhost:$(PMA_PORT)", "port not found.")
-
-	-$(eval XDEBUG_ID := $(shell docker-compose  --profile xdebug ps -q $(XDEBUG_SERVICE_NAME)))
+	-$(eval XDEBUG_ID := $(shell ${DOCKER_COMPOSE_CMD} --profile xdebug ps -q $(XDEBUG_SERVICE_NAME)))
 	-$(eval XDEBUG_PORT := $(shell docker inspect $(XDEBUG_ID) --format='{{json (index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' 2> /dev/null))
 	@echo $(XDEBUG_SERVICE_NAME): $(if $(XDEBUG_PORT), "http://localhost:$(XDEBUG_PORT)", "port not found.")
 
-	-$(eval S3_PORT := $(shell docker inspect $(S3_ID) --format='{{json (index (index .NetworkSettings.Ports "9000/tcp") 0).HostPort}}' 2> /dev/null))
-
 # New line before the ps.
 	@echo
-	@docker-compose ps -a
+	@$(DOCKER_COMPOSE_CMD) ps -a
 
 # Rebuild images, remove orphans, and docker-compose up.
 dcupd:
-	docker-compose up -d --build --remove-orphans
+	$(DOCKER_COMPOSE_CMD) up -d --build --remove-orphans
 
 # Stop all runner containers.
 dcstop:
-	docker-compose stop
+	$(DOCKER_COMPOSE_CMD) stop
 
 # Get app-name container logs.
 dclogs:
-	docker-compose logs --tail=100 -f $(APP_SERVICE_NAME)
+	$(DOCKER_COMPOSE_CMD) logs --tail=100 -f $(APP_SERVICE_NAME)
 
 # Get a bash inside running app-name container.
 dcshell:
-	docker-compose exec $(APP_SERVICE_NAME) bash
+	$(DOCKER_COMPOSE_CMD) exec $(APP_SERVICE_NAME) bash
 
 # Start app-name with xdebug enabled.
 dcxdbg:
-	docker-compose --profile $(XDEBUG_SERVICE_NAME) up -d --build --remove-orphans
-	docker-compose --profile $(XDEBUG_SERVICE_NAME) logs --tail=100 -f $(XDEBUG_SERVICE_NAME)
+	$(DOCKER_COMPOSE_CMD) --profile $(XDEBUG_SERVICE_NAME) up -d --build --remove-orphans
+	$(DOCKER_COMPOSE_CMD) --profile $(XDEBUG_SERVICE_NAME) logs --tail=100 -f $(XDEBUG_SERVICE_NAME)
 
 # Start app-name test
 dctest:
-	docker-compose --profile $(TEST_SERVICE_NAME) run --rm test composer test
+	$(DOCKER_COMPOSE_CMD) --profile $(TEST_SERVICE_NAME) run --rm test composer test
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Include the .d makefiles.

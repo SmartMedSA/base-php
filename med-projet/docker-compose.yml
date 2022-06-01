@@ -1,36 +1,6 @@
 version: '3'
 services:
 
-  dbmysql:
-    image: mysql:8.0.22
-    command: mysqld --sql_mode=""
-    volumes:
-      - db-app:/var/lib/mysql
-    env_file:
-      - .env.local
-    environment:
-      MYSQL_DATABASE:
-      MYSQL_USER:
-      MYSQL_PASSWORD:
-      MYSQL_ROOT_PASSWORD:
-    networks:
-      - dev
-
-  phpmyadmin:
-    image: phpmyadmin
-    env_file:
-      - .env.local
-    environment:
-      PMA_HOST: dbmysql
-      MYSQL_DATABASE:
-      MYSQL_USER:
-      MYSQL_PASSWORD:
-      MYSQL_ROOT_PASSWORD:
-    ports:
-      - "80"
-    networks:
-      - dev
-
   app: &app
     image: app
     build:
@@ -75,6 +45,3 @@ networks:
   dev:
     external: false
     name: 'app_dev'
-
-volumes:
-  db-app:
