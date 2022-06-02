@@ -13,4 +13,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Build:parentDockerImage"
-        run: docker build -t ghrc.io/SmartMedSA/base-php:latest .
+        run: docker build -t ghrc.io/SmartMedSA/base-php .
