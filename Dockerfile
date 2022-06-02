@@ -25,7 +25,6 @@ RUN set -xe; \
     librabbitmq-dev \
     sudo \
     zlib1g-dev \
-    libssh-dev ; \
     \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen && \
