@@ -35,7 +35,6 @@ jobs:
           export TG=pr${{ github.event.number }}
           echo "::set-output name=CTAG::pr${{ github.event.number }}"
           fi
-          echo "${{ env.CTAG }}"
         shell: bash
 
       - id: write_tags
@@ -62,5 +61,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ghcr.io/newmedsa/base-php:${{ steps.tagging.outputs.CTAG }}
           labels: ${{ steps.meta.outputs.labels }}
