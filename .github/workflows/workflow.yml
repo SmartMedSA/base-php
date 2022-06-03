@@ -40,7 +40,7 @@ jobs:
 
       - id: write tags
         name: Test var
-        run: echo ${{ steps.tagging.outputs }}
+        run: echo ${{ steps.tagging.outputs.CTAG }}
 
       - name: "Checkout repository"
         uses: actions/checkout@v3
