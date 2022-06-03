@@ -37,13 +37,14 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and cache
-        uses: docker/build-push-action@v2
+        if: github.event_name != 'push'
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: ${{ github.event_name == 'pull_request' }}
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER}}/base-php:latest
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=ghcr.io/${{ env.IMAGE_OWNER}}/base-php:buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ env.IMAGE_OWNER}}/base-php:buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.IMAGE_OWNER}}/base-php:latest
+          cache-to: type=inline
 
 
