@@ -26,6 +26,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+
     steps:
       - id: tagging
         name: Test var
@@ -38,10 +39,6 @@ jobs:
           echo "::set-output name=CTAG::${GITHUB_REF##*/}" 
           fi
         shell: bash
-
-      - id: write_tags
-        name: write tags
-        run: echo ${{ steps.tagging.outputs.CTAG }}
 
       - name: "Checkout repository"
         uses: actions/checkout@v3
@@ -65,3 +62,4 @@ jobs:
           push: true
           tags: ghcr.io/smartmedsa/base-php:${{ steps.tagging.outputs.CTAG }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=registry,ref=ghcr.io/smartmedsa/base-php:develop
