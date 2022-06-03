@@ -28,7 +28,6 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 1
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -44,4 +43,4 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER}}/base-php:latest
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=${{ env.IMAGE_OWNER}}/base-php:latest
-          cache-to: type=inline
+          cache-to: type=inline,mode=max
