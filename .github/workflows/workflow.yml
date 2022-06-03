@@ -18,7 +18,6 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   IMAGE_TAG: ${{ github.ref }}
   IMAGE_OWNER: smartmedsa
-  TAG_NAME: ${{ format(github.event_name , 'pull_request') }}
 
 
 jobs:
@@ -30,13 +29,11 @@ jobs:
     steps:
       - name: Test var
         run: |
-          if [ "${{ github.event_name }}" == "push" ]
+          if [ "${{ github.event_name }}" == "pull_request" ]
           then
-            echo "push"
-          else
-            echo -n "pr" echo ${{ github.event.number }}
+            export $TAG_NAME= "pr${{ github.event.number }}"
           fi
-          echo "${{ github.event.number }}"
+          echo "${{ env.TAG_NAME }}"
         shell: bash
 
       - name: "Checkout repository"
