@@ -27,12 +27,12 @@ jobs:
       contents: read
       packages: write
     steps:
+      - id: tagging
       - name: Test var
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]
           then
-            export CTAG= "pr${{ github.event.number }}"
-            echo "::set-env name=SABRI::pr${{ github.event.number }}"
+          echo "::set-output name=CTAG::pr${{ github.event.number }}"
           fi
           echo "${{ env.CTAG }}"
         shell: bash
