@@ -34,6 +34,8 @@ jobs:
           then
           export TG=pr${{ github.event.number }}
           echo "::set-output name=CTAG::pr${{ github.event.number }}"
+          else
+          echo "::set-output name=CTAG::${GITHUB_REF##*/}" 
           fi
         shell: bash
 
@@ -61,5 +63,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/newmedsa/base-php:${{ steps.tagging.outputs.CTAG }}
+          tags: ghcr.io/smartmedsa/base-php:${{ steps.tagging.outputs.CTAG }}
           labels: ${{ steps.meta.outputs.labels }}
