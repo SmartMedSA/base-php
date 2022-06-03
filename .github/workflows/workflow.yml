@@ -44,6 +44,6 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER}}/base-php:latest
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=registry,ref=${{ env.IMAGE_OWNER}}/base-php:latest
-          cache-to: type=inline
+          cache-to: type=registry,ref=${{ env.IMAGE_OWNER}}/base-php:latest,mode=max
 
 
