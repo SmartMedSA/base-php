@@ -18,16 +18,10 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   IMAGE_TAG: ${{ github.ref }}
   IMAGE_OWNER: smartmedsa
-  TAG_NAME: ${{ 'pr' && (github.event_name == 'pull_request') }}
+  TAG_NAME: ${{ format(github.event_name , 'pull_request') }}
 
 
 jobs:
-  test_var:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-
   build:
     runs-on: ubuntu-latest
     permissions:
@@ -35,7 +29,7 @@ jobs:
       packages: write
     steps:
       - name: Test var
-        run: echo "${{ env.TAG_NAME }}"
+        run: echo "${{ pullrequest.id }}"
 
       - name: "Checkout repository"
         uses: actions/checkout@v3
