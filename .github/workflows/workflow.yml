@@ -29,7 +29,14 @@ jobs:
       packages: write
     steps:
       - name: Test var
-        run: echo "${{ github.event.number }}"
+        run: |
+          if[ "${{ github.event_name }}" == "push" ]
+          then
+            echo "push"
+          else
+            echo -n "pr" echo ${{ github.event.number }}
+          fi
+          echo "${{ github.event.number }}"
         shell: bash
 
       - name: "Checkout repository"
