@@ -31,7 +31,7 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]
           then
-            export $TAG_NAME= "pr${{ github.event.number }}"
+            export TAG_NAME= "pr${{ github.event.number }}"
           fi
           echo "${{ env.TAG_NAME }}"
         shell: bash
