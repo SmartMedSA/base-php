@@ -2,24 +2,41 @@ name: Build docker image
 
 on:
   push:
+    branches:
+      - 'master'
+      - 'develop'
+    tags:
+      - 'v*'
   pull_request:
     branches:
       - 'develop'
+      - 'master'
+
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   IMAGE_TAG: ${{ github.ref }}
   IMAGE_OWNER: smartmedsa
+  TAG_NAME: ${{ 'pr' && (github.event_name == 'pull_request') }}
 
 
 jobs:
+  test_var:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
     steps:
+      - name: Test var
+      - run: echo "${{ env.TAG_NAME }}"
+
       - name: "Checkout repository"
         uses: actions/checkout@v3
       - name: "Log in to the Container registry"
@@ -39,8 +56,6 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
-          push: ${{ github.event_name == 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER}}/base-php:latest
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=${{ env.IMAGE_OWNER}}/base-php:latest
-          cache-to: type=inline,mode=max
