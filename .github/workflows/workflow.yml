@@ -27,8 +27,8 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Test var
-        id: tagging
+      - id: tagging
+        name: Test var
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]
           then
