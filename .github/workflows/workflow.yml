@@ -38,8 +38,8 @@ jobs:
           echo "${{ env.CTAG }}"
         shell: bash
 
-      - id: write tags
-        name: Test var
+      - id: write_tags
+        name: write tags
         run: echo ${{ steps.tagging.outputs.CTAG }}
 
       - name: "Checkout repository"
