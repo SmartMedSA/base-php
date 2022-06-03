@@ -31,9 +31,10 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]
           then
-            export TAG_NAME= "pr${{ github.event.number }}"
+            export CTAG= "pr${{ github.event.number }}"
+            echo "::set-env name=SABRI::pr${{ github.event.number }}"
           fi
-          echo "${{ env.TAG_NAME }}"
+          echo "${{ env.CTAG }}"
         shell: bash
 
       - name: "Checkout repository"
