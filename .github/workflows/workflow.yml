@@ -30,6 +30,7 @@ jobs:
     steps:
       - name: Test var
         run: echo "${{ pullrequest.id }}"
+        shell: bash
 
       - name: "Checkout repository"
         uses: actions/checkout@v3
