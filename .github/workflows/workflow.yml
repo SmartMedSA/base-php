@@ -30,7 +30,7 @@ jobs:
     steps:
       - name: Test var
         run: |
-          if[ "${{ github.event_name }}" == "push" ]
+          if [ "${{ github.event_name }}" == "push" ]
           then
             echo "push"
           else
