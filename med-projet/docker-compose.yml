@@ -20,6 +20,7 @@ services:
     networks:
       - dev
 
+
   xdebug:
     <<: *app
     profiles: ["xdebug"]
