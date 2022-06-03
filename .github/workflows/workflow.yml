@@ -32,10 +32,15 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" == "pull_request" ]
           then
+          export TG=pr${{ github.event.number }}
           echo "::set-output name=CTAG::pr${{ github.event.number }}"
           fi
           echo "${{ env.CTAG }}"
         shell: bash
+
+      - id: write tags
+        name: Test var
+        run: echo ${{ steps.tagging.outputs }}
 
       - name: "Checkout repository"
         uses: actions/checkout@v3
