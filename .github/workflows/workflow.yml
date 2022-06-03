@@ -62,5 +62,5 @@ jobs:
           push: true
           tags: ghcr.io/smartmedsa/base-php:${{ steps.tagging.outputs.CTAG }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=registry,ref=ghcr.io/smartmedsa/base-php:base-cache
-          cache-to: type=registry,ref=ghcr.io/smartmedsa/base-php:base-cache,mode=max
+          cache-from: type=registry,ref=ghcr.io/smartmedsa/base-php:develop
+          cache-to: inline
