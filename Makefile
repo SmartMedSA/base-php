@@ -10,7 +10,6 @@ endif
 
 NAME = app
 
-
 ifeq ($(IMAGE_TAG),)
     IMAGE_TAG ?= latest
 endif
