@@ -1,6 +1,6 @@
 FROM spiralscout/roadrunner:2.6.4 as rr
 
-FROM php:8.0.14-cli
+FROM php:8.0.19-cli
 
 SHELL ["/bin/bash", "-c"]
 
@@ -67,7 +67,7 @@ RUN set -xe; \
     \
     docker-php-ext-configure intl;
 
-# Create a group and user
+# Create a group and user.
 RUN groupadd --gid 2000 www-data && useradd --shell /bin/bash --gid 2000 --uid 2000 www-data; \
     install -o www-data -g www-data -d \
         "${APP_ROOT}"; \
@@ -79,7 +79,7 @@ RUN groupadd --gid 2000 www-data && useradd --shell /bin/bash --gid 2000 --uid 2
          echo 'www-data ALL=NOPASSWD: /usr/local/bin/init_container ' ; \
      } | tee /etc/sudoers.d/www-data;
 
-# Copy RoadRunner
+# Copy RoadRunner.
 COPY --from=rr /usr/bin/rr /usr/bin/rr
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
