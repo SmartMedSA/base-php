@@ -42,6 +42,7 @@ RUN set -xe; \
     opcache \
     intl \
     zip \
+    pcntl \
     calendar \
     dom \
     pcntl \
