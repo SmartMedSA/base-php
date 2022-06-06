@@ -91,7 +91,7 @@ jobs:
         uses: vlaurin/action-ghcr-prune@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          çorganization: SmartMedSA
+          organization: SmartMedSA
           container: base-php
           dry-run: true
           
