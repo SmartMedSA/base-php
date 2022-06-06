@@ -79,5 +79,5 @@ jobs:
             latest=false
 
       - name: delete_pr_image
-      run: |
-        docker rmi ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        run: |
+         docker rmi ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
