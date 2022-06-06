@@ -81,8 +81,7 @@ jobs:
       - name: get PR image name
         id: pr_image_name
         run: |
-          export TAGTOREMOVE= echo "${{ steps.meta.outputs.tags }}" | cut -d/ -f3
-          echo "::set-output name=TAG_TO_REMOVE::${ TAGTOREMOVE }"
+          echo "::set-output name=TAG_TO_REMOVE::$(${{ steps.meta.outputs.tags }} | cut -d/ -f3)"
 
         shell: bash
 
