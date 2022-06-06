@@ -5,14 +5,13 @@ on:
     branches:
       - 'master'
       - 'develop'
-      - 'test'
     tags:
       - '**'
   pull_request:
     branches:
       - 'develop'
       - 'master'
-
+      - 'test'
 
 env:
   REGISTRY: ghcr.io
@@ -39,6 +38,7 @@ jobs:
           else
           echo "::set-output name=CTAG::${GITHUB_REF##*/}" 
           fi
+          echo "${{ github.event.pull_request }}"
         shell: bash
 
       - name: "Checkout repository"
