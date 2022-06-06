@@ -6,12 +6,11 @@ on:
       - 'master'
       - 'develop'
     tags:
-      - 'v*'
+      - '**'
   pull_request:
     branches:
       - 'develop'
       - 'master'
-
 
 env:
   REGISTRY: ghcr.io
@@ -28,18 +27,6 @@ jobs:
       packages: write
 
     steps:
-      - id: tagging
-        name: Test var
-        run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]
-          then
-          export TG=pr${{ github.event.number }}
-          echo "::set-output name=CTAG::pr${{ github.event.number }}"
-          else
-          echo "::set-output name=CTAG::${GITHUB_REF##*/}" 
-          fi
-        shell: bash
-
       - name: "Checkout repository"
         uses: actions/checkout@v3
       - name: "Log in to the Container registry"
@@ -54,11 +41,13 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          flavor: |
+            latest=false
 
       - name: Build and cache
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: ghcr.io/smartmedsa/base-php:${{ steps.tagging.outputs.CTAG }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
