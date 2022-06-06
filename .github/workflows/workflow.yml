@@ -12,7 +12,7 @@ on:
       - 'develop'
       - 'master'
     types: [ opened , closed , reopened ,  edited , synchronize ]
-    
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
