@@ -85,10 +85,12 @@ jobs:
         shell: bash
 
       - name: Delete image
-        uses: vlaurin/action-ghcr-prune@main
+        uses: bots-house/ghcr-delete-image-action@v1.0.0
         with:
+          # NOTE: at now only orgs is supported
+          owner: SmartMedSA
+          name: https://api.github.com/repos/SmartMedSA/base-php
+          # NOTE: using Personal Access Token
           token: ${{ secrets.GITHUB_TOKEN }}
-          organization: smartmedsa
-          container: base-php
-          dry-run: true
+          tag: pr-${{github.event.pull_request.number}}
           
