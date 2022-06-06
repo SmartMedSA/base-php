@@ -12,7 +12,7 @@ on:
       - 'develop'
       - 'master'
       - 'delete_image_feature'
-    types: [ opened , closed , reopened ,  edited , synchronize ]
+    types: [ opened , closed ,  edited , synchronize ]
 
 env:
   REGISTRY: ghcr.io
