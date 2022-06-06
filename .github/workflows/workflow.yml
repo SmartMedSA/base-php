@@ -30,9 +30,12 @@ jobs:
     steps:
       -  name: debug PR event
          run: |
-           echo "${{ github.event.pull_request }}"
-           
+           echo "::set-outputs name=e::${{ github.event.pull_request }}"
          shell: bash
+
+      - name: Dump context
+        uses: crazy-max/ghaction-dump-context@v1
+
       - name: "Checkout repository"
         uses: actions/checkout@v3
       - name: "Log in to the Container registry"
