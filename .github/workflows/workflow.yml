@@ -81,8 +81,9 @@ jobs:
       - name: get PR image name
         id: pr_image_name
         run: |
-          export TAG_TO_REMOVE=(${{ steps.meta.outputs.tags }} | cut -d/ -f3 | cut -d: -f2)
+          export TAGTOREMOVE= (echo ${{ steps.meta.outputs.tags }} | cut -d/ -f3 | cut -d: -f2)
           echo "::set-output name=TAG_TO_REMOVE::${ TAG_TO_REMOVE }"
+
         shell: bash
 
       - name: delete_pr_image
