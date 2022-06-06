@@ -80,4 +80,4 @@ jobs:
 
       - name: delete_pr_image
         run: |
-         docker rmi ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+         docker rmi ${{ steps.meta.outputs.tags }}
