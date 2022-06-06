@@ -27,6 +27,11 @@ jobs:
       packages: write
 
     steps:
+      -  name: debug PR event
+         run: |
+           echo "${{ github.event.pull_request }}"
+           
+         shell: bash
       - name: "Checkout repository"
         uses: actions/checkout@v3
       - name: "Log in to the Container registry"
