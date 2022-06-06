@@ -90,3 +90,4 @@ COPY docker/php/templates /etc/gotpl
 COPY docker/php/docker-entrypoint.sh /
 COPY docker/php/bin /usr/local/bin/
 COPY docker/php/docker-entrypoint-init.d/ /docker-entrypoint-init.d/
+RUN echo 'success'
