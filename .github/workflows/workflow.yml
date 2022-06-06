@@ -79,13 +79,13 @@ jobs:
             latest=false
 
       - name: get PR image name
-        id: pr_image_name
+        id: imgname
         run: |
-          echo "::set-output name=TAG_TO_REMOVE::$(${{ steps.meta.outputs.tags }} | cut -d/ -f3)"
+          echo "::set-output name=ttr::$( echo ${{ steps.meta.outputs.tags }} | cut -d/ -f3)"
 
         shell: bash
 
       - name: delete_pr_image
         run: |
-         docker rmi ${{ steps.pr_image_name.outputs.TAG_TO_REMOVE }}
+         docker rmi ${{ steps.imgname.outputs.ttr }}
           
