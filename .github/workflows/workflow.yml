@@ -28,9 +28,10 @@ jobs:
       packages: write
 
     steps:
-      -  name: debug PR event
+      -  name: pr close-merge
+         if: ((github.event.action == 'closed' && github.event.pull_request.merged != true))
          run: |
-           echo "::set-outputs name=e::${{ github.event.pull_request }}"
+           echo "pr is closed or merged"
          shell: bash
 
       - name: Dump context
