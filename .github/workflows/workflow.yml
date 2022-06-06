@@ -59,7 +59,8 @@ jobs:
   delete_docker_image:
     runs-on: ubuntu-latest
     permissions: 
-      packages: read | write 
+      contents: read
+      packages: write 
     if: ((github.event.action == 'closed' || github.event.pull_request.merged == true))
     steps:
       - name: "Checkout repository"
