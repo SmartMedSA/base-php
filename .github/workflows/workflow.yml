@@ -7,7 +7,7 @@ on:
       - 'develop'
       - 'test'
     tags:
-      - 'v*'
+      - '**'
   pull_request:
     branches:
       - 'develop'
