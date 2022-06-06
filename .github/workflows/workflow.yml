@@ -19,7 +19,6 @@ env:
   IMAGE_TAG: ${{ github.ref }}
   IMAGE_OWNER: smartmedsa
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
