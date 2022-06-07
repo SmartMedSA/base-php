@@ -55,16 +55,19 @@ jobs:
 
       - name: "switch to med-projet directory"
         run: |
-          pwd
-          ls 
-          ls -ali
           cd med-projet
+        shell: bash
+
+      - name: "run pwd command"
+        run: |
+          pwd
         shell: bash
 
       - name: Build and cache
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
+          file: Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
