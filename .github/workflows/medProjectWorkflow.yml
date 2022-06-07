@@ -62,4 +62,4 @@ jobs:
           context: ./med-projet
           file: ./med-projet/Dockerfile
           push: true
-          tags: ${{ steps.meta.ouputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
