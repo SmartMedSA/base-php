@@ -122,7 +122,7 @@ dclogs:
 
 # Get a bash inside running app-name container.
 dcshell:
-	$(DOCKER_COMPOSE_CMD) exec $(APP_SERVICE_NAME) bash
+	$(DOCKER_COMPOSE_CMD) exec med-projet_app_1 bash
 
 # Start app-name with xdebug enabled.
 dcxdbg:
