@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/new-med/base-php:latest
+FROM ghcr.io/smartmedsa/base-php:develop
 
 ARG UID=2000
 ARG GID=2000
