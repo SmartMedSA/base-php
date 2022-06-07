@@ -11,23 +11,26 @@ on:
     branches:
       - 'develop'
       - 'master'
-    types: [ opened , closed , reopened ,  edited , synchronize ]
-    
+    types: [ opened , closed ,  edited , synchronize ]
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   IMAGE_TAG: ${{ github.ref }}
   IMAGE_OWNER: smartmedsa
 
-
 jobs:
   build:
+    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
 
     steps:
+      - name: Dump context
+        uses: crazy-max/ghaction-dump-context@v1
+
       - name: "Checkout repository"
         uses: actions/checkout@v3
       - name: "Log in to the Container registry"
@@ -44,7 +47,6 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           flavor: |
             latest=false
-
       - name: Build and cache
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
@@ -52,3 +54,40 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  delete_docker_image:
+    runs-on: ubuntu-latest
+    if: ((github.event.action == 'closed' || github.event.pull_request.merged == true))
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v3
+
+      - name: "Log in to the Container registry"
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          flavor: |
+            latest=false
+      - name: get PR image name
+        id: imgname
+        run: |
+          echo "::set-output name=ttr::$( echo ${{ steps.meta.outputs.tags }} | cut -d/ -f3)"
+        shell: bash
+
+      - name: Delete image
+        uses: bots-house/ghcr-delete-image-action@v1.0.0
+        with:
+          # NOTE: at now only orgs is supported
+          owner: SmartMedSA
+          name: base-php
+          # NOTE: using Personal Access Token
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: pr-${{github.event.pull_request.number}}
