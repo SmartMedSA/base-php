@@ -52,11 +52,6 @@ jobs:
           flavor: |
             latest=false
 
-      - name: "run pwd command"
-        run: |
-          pwd
-        shell: bash
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
