@@ -63,5 +63,9 @@ jobs:
       - name: run test
         id: test
         run: |
+          cd med-projet
           make dcupd
+          make dcshell
+          composer check
+          composer test
         shell: bash
