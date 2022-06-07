@@ -58,14 +58,18 @@ jobs:
           images: ${{ env.REGISTRY }}/med-projet
           flavor: |
             latest=false
+
       - name: Build and cache
+        run: |
+          cd med-projet
+        shell: bash
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: ./med-projet
-          file: Dockerfile
+          context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
 
   delete_docker_image:
     runs-on: ubuntu-latest
