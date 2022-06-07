@@ -25,6 +25,11 @@ jobs:
   build-med-projet:
     if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: med-projet
+
     permissions:
       contents: read
       packages: write
