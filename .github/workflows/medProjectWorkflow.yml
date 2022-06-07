@@ -44,12 +44,6 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: "working dir"
-        run: |
-          pwd
-          ls 
-          ls -ali
-        shell: bash
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
@@ -59,10 +53,15 @@ jobs:
           flavor: |
             latest=false
 
-      - name: Build and cache
+      - name: "switch to med-projet directory"
         run: |
+          pwd
+          ls 
+          ls -ali
           cd med-projet
         shell: bash
+
+      - name: Build and cache
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
