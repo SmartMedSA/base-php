@@ -66,4 +66,5 @@ jobs:
           cd med-projet
           make dcupd
           make dcps
+          docker exec -it app /bin/bash
         shell: bash
