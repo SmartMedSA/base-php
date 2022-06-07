@@ -1,25 +1,20 @@
 name: Build med project docker image
 
 on:
-  push:
-    branches:
-      - 'master'
-      - 'develop'
-      - 'packaging_med_project'
-    tags:
-      - '**'
-  pull_request:
-    branches:
-      - 'develop'
-      - 'master'
-      - 'packaging_med_project'
-    types: [ opened , closed ,  edited , synchronize ]
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-  IMAGE_TAG: ${{ github.ref }}
-  IMAGE_OWNER: smartmedsa
+  workflow_call:
+    inputs:
+      username:
+        required: true
+        type: string
+      REGISTRY:
+        required: true
+        type: string
+      IMAGE_OWNER:
+        required: true
+        type: string
+    secrets:
+      token:
+        required: true
 
 jobs:
   build-med-projet:
@@ -30,24 +25,23 @@ jobs:
       packages: write
 
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
       - name: Dump context
         uses: crazy-max/ghaction-dump-context@v1
-
-      - name: "Checkout repository"
-        uses: actions/checkout@v3
 
       - name: "Log in to the Container registry"
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ${{ inputs.REGISTRY }}
+          username: ${{ inputs.username }}
+          password: ${{ secrets.token }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/med-projet
+          images: ${{ inputs.REGISTRY }}/${{ inputs.IMAGE_OWNER }}/med-projet
           flavor: |
             latest=false
 
@@ -66,5 +60,6 @@ jobs:
           cd med-projet
           make dcupd
           make dcps
-          make dcshell
+          make dctest
+          make dccheck
         shell: bash
