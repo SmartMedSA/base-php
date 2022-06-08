@@ -12,21 +12,21 @@ RUN set -xe; \
     \
     apt-get update \
     && apt-get install -y --no-install-recommends \
-    locales \
     apt-utils \
+    g++ \
     git \
     libicu-dev \
-    g++ \
-    libpng-dev \
-    libxml2-dev \
-    libzip-dev \
     libonig-dev \
-    libxslt-dev \
+    libpng-dev \
     librabbitmq-dev \
+    libssh-dev \
+    libxml2-dev \
+    libxslt-dev \
+    libzip-dev \
+    locales \
     sudo \
-    zlib1g-dev \
     wait-for-it \
-    libssh-dev ; \
+    zlib1g-dev; \
     \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen && \
@@ -37,36 +37,37 @@ RUN set -xe; \
     curl -sL "${gotpl_url}" | tar xz --no-same-owner -C /usr/local/bin; \
     \
     docker-php-ext-install \
-    pdo \
-    pdo_mysql \
-    gd \
-    opcache \
-    intl \
-    zip \
-    pcntl \
+    bcmath \
     calendar \
     dom \
-    pcntl \
-    mbstring \
-    zip \
     gd \
+    gd \
+    intl \
+    mbstring \
+    opcache \
+    pcntl \
+    pcntl \
+    pdo \
+    pdo_mysql \
+    sockets \
     xsl \
-    bcmath \
-    sockets; \
+    zip \
+    zip; \
     \
     pecl install \
+    amqp-1.11.0beta \
     apcu \
-    xdebug \
     redis-5.3.4 \
-    amqp-1.11.0beta; \
+    xdebug; \
     \
     docker-php-ext-enable \
-    redis \
+    amqp \
     apcu \
-    xdebug \
-    amqp; \
+    redis \
+    xdebug; \
     \
-    docker-php-ext-configure intl;
+    docker-php-ext-configure \
+    intl;
 
 # Create a group and user.
 RUN groupadd --gid 2000 www-data && useradd --shell /bin/bash --gid 2000 --uid 2000 www-data; \
