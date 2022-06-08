@@ -69,6 +69,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-med-projet
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
       - name: run test
         run: |
           pwd
@@ -82,6 +84,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: dctest
     steps:
+      - name: checkout
+        uses: actions/checkout@v3
       - name: run check
         run: |
           pwd
