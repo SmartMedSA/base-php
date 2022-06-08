@@ -38,7 +38,7 @@ jobs:
               - 'med-projet/**'
   build:
     needs: detect_mp_changes
-    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true) && needs.detect_mp_changes.outputs.isChanged != 'true')
+    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true) && needs.detect_mp_changes.outputs.isChanged == 'true')
     uses: SmartMedSA/base-php/.github/workflows/medProjectWorkflow.yml@packaging_med_project
     with:
       REGISTRY: ghcr.io
