@@ -63,3 +63,23 @@ jobs:
           make dctest
           make dccheck
         shell: bash
+
+
+  dctest:
+    runs-on: ubuntu-latest
+    needs: build-med-projet
+    steps:
+      - name: run test
+        run:
+          make dctest
+        shell: bash
+
+
+  dccheck:
+    runs-on: ubuntu-latest
+    needs: dctest
+    steps:
+      - name: run test
+        run:
+          make dccheck
+        shell: bash
