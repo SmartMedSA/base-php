@@ -66,7 +66,8 @@ RUN set -xe; \
     intl;
 
 # Create a group and user.
-RUN groupadd --gid 2000 www-data && useradd --shell /bin/bash --gid 2000 --uid 2000 www-data; \
+RUN set -xe; \
+    \
     install -o www-data -g www-data -d \
         "${APP_ROOT}"; \
     chown -R www-data:www-data \
