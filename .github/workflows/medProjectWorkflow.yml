@@ -70,7 +70,10 @@ jobs:
     needs: build-med-projet
     steps:
       - name: run test
-        run:
+        run: |
+          pwd
+          cd med-projet
+          pwd
           make dctest
         shell: bash
 
@@ -79,7 +82,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: dctest
     steps:
-      - name: run test
-        run:
+      - name: run check
+        run: |
+          pwd
+          cd med-projet
+          pwd
           make dccheck
         shell: bash
