@@ -1,10 +1,6 @@
-FROM spiralscout/roadrunner:2.6.4 as rr
-
 FROM php:8.0.19-cli
 
 SHELL ["/bin/bash", "-c"]
-
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 ENV APP_ROOT="/var/www"
 
@@ -81,12 +77,15 @@ RUN groupadd --gid 2000 www-data && useradd --shell /bin/bash --gid 2000 --uid 2
          echo 'www-data ALL=NOPASSWD: /usr/local/bin/init_container ' ; \
      } | tee /etc/sudoers.d/www-data;
 
-# Copy RoadRunner.
-COPY --from=rr /usr/bin/rr /usr/bin/rr
+# Add latest composer version.
+COPY --from=composer:2.3 /usr/bin/composer /usr/local/bin/composer
+# Add RoadRunner.
+COPY --from=spiralscout/roadrunner:2.6.4 /usr/bin/rr /usr/bin/rr
+
+WORKDIR "${APP_ROOT}"
+USER www-data
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-USER www-data
-WORKDIR ${APP_ROOT}
 
 COPY docker/php/templates /etc/gotpl
 COPY docker/php/docker-entrypoint.sh /
