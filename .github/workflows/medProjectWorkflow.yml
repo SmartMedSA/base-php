@@ -61,10 +61,12 @@ jobs:
           build-args: ${{ inputs.TAG }}
 
       - name: run test
+        env:
+          BASE_PHP_TAG: ${{ inputs.TAG }}
         id: test
         run: |
           cd med-projet
-          
+          echo $BASE_PHP_TAG
           make dcupd
           make dcps
           make dctest

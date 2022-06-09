@@ -41,6 +41,6 @@ jobs:
       REGISTRY: ghcr.io
       username: ${{ github.actor }}
       IMAGE_OWNER: smartmedsa
-      TAG: needs.build-base-php.outputs.tag
+      TAG: ${{ needs.build-base-php.outputs.tag }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
