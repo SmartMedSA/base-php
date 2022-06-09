@@ -23,7 +23,6 @@ jobs:
   build-med-projet:
     env:
       BASE_PHP_TAG: ${{ inputs.TAG }}
-    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
     runs-on: ubuntu-latest
     permissions:
       contents: read
