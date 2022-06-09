@@ -5,14 +5,14 @@ on:
     branches:
       - 'master'
       - 'develop'
-      - 'packaging_med_project'
+      - 'caching_docker_layers_feature'
     tags:
       - '**'
   pull_request:
     branches:
       - 'develop'
       - 'master'
-      - 'packaging_med_project'
+      - 'caching_docker_layers_feature'
     types: [ opened , closed ,  edited ]
 
 env:
