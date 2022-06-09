@@ -2,6 +2,9 @@ name: Build docker image
 
 on:
   workflow_call:
+    outputs:
+      tag:
+        value: ${{ jobs.build.outputs.tag }}
     inputs:
       username:
         required: true
@@ -18,7 +21,9 @@ on:
 
 jobs:
   build:
-    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
+    outputs:
+      tag: ${{ steps.meta.outputs.tags }}
+    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -53,6 +58,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-    outputs:
-      tag: ${{ steps.meta.outputs.tags[0] }}
