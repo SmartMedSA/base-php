@@ -52,7 +52,6 @@ jobs:
 
 
   build-base-php:
-    needs: detect_mp_changes
     if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
     uses: SmartMedSA/base-php/.github/workflows/base-php-workflow.yml@packaging_med_project
     with:
