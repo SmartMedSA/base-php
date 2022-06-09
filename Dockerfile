@@ -2,7 +2,7 @@ FROM php:8.0.19-cli
 
 SHELL ["/bin/bash", "-c"]
 
-ENV APP_ROOT="/var/www"
+ENV APP_ROOT="/var/www/app"
 
 RUN set -xe; \
     \
