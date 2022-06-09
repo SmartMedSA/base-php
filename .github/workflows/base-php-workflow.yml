@@ -54,6 +54,9 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+    outputs:
+      tag: ${{ steps.meta.outputs.tags[0] }}
+
 
   delete_docker_image:
     runs-on: ubuntu-latest

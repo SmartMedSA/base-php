@@ -37,19 +37,6 @@ jobs:
           filters: |
             med-projet:
               - 'med-projet/**'
-  
-
-  build-med-project:
-    needs: detect_mp_changes
-    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true) && needs.detect_mp_changes.outputs.isChanged == 'true')
-    uses: SmartMedSA/base-php/.github/workflows/medProjectWorkflow.yml@packaging_med_project
-    with:
-      REGISTRY: ghcr.io
-      username: ${{ github.actor }}
-      IMAGE_OWNER: smartmedsa
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
-
 
   build-base-php:
     if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
@@ -58,5 +45,18 @@ jobs:
       REGISTRY: ghcr.io
       username: ${{ github.actor }}
       IMAGE_OWNER: smartmedsa
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+
+
+  build-med-project:
+    needs: build-base-php
+    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
+    uses: SmartMedSA/base-php/.github/workflows/medProjectWorkflow.yml@packaging_med_project
+    with:
+      REGISTRY: ghcr.io
+      username: ${{ github.actor }}
+      IMAGE_OWNER: smartmedsa
+      TAG: needs.build-base-php.outputs.tag
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}

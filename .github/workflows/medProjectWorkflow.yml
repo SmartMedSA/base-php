@@ -12,6 +12,9 @@ on:
       IMAGE_OWNER:
         required: true
         type: string
+      TAG:
+        required: false
+        type: string
     secrets:
       token:
         required: true
