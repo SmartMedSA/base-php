@@ -23,7 +23,7 @@ env:
 
 jobs:
   build-base-php:
-    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
+    if: (github.event.action != 'closed')
     uses: SmartMedSA/base-php/.github/workflows/base-php-workflow.yml@packaging_med_project
     with:
       REGISTRY: ghcr.io
@@ -35,7 +35,7 @@ jobs:
 
   build-med-project:
     needs: build-base-php
-    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
+    if: (github.event.action != 'closed')
     uses: SmartMedSA/base-php/.github/workflows/medProjectWorkflow.yml@packaging_med_project
     with:
       REGISTRY: ghcr.io
@@ -44,3 +44,19 @@ jobs:
       TAG: ${{ needs.build-base-php.outputs.tag }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+  delete-docker-image:
+    if: (github.event.action == 'closed')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Dump context
+        uses: crazy-max/ghaction-dump-context@v1
