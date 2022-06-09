@@ -22,22 +22,6 @@ env:
   IMAGE_OWNER: smartmedsa
 
 jobs:
-  detect_mp_changes:
-    runs-on: ubuntu-latest
-    outputs:
-      isChanged: ${{ steps.changes.outputs.med-projet }}
-    steps:
-      - name: checkout branch
-        uses: actions/checkout@v3
-
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          base: ${{ github.ref_name }}
-          filters: |
-            med-projet:
-              - 'med-projet/**'
-
   build-base-php:
     if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
     uses: SmartMedSA/base-php/.github/workflows/base-php-workflow.yml@packaging_med_project

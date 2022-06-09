@@ -8,7 +8,7 @@ services:
       args:
         UID: ${UID}
         GID: ${GID}
-        BASE_PHP_TAG: ${TAG}
+        BASE_PHP_TAG: ${BASE_PHP_TAG}
     command: ["rr", "serve", "-c", ".rr.dev.yaml"]
     env_file:
       - .env.local
