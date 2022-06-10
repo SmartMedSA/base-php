@@ -5,14 +5,12 @@ on:
     branches:
       - 'master'
       - 'develop'
-      - 'caching_docker_layers_feature'
     tags:
       - '**'
   pull_request:
     branches:
       - 'develop'
       - 'master'
-      - 'caching_docker_layers_feature'
     types: [ opened , closed ,  edited ]
 
 env:
