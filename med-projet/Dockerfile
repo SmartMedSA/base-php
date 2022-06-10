@@ -30,4 +30,6 @@ RUN set -xe; \
     composer validate --no-interaction --quiet; \
     composer install --no-dev --no-scripts --no-plugins --prefer-dist --no-progress --no-interaction
 
+COPY . "${APP_ROOT}"
+
 CMD ["rr", "serve", "-c", ".rr.yaml"]
