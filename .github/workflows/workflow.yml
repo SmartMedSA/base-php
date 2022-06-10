@@ -24,7 +24,7 @@ env:
 jobs:
   build-base-php:
     if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
-    uses: SmartMedSA/base-php/.github/workflows/base-php-workflow.yml@${{ env.GITHUB_SHA }}
+    uses: SmartMedSA/base-php/.github/workflows/base-php-workflow.yml@${{env.GITHUB_SHA}}
     with:
       REGISTRY: ghcr.io
       username: ${{ github.actor }}
@@ -36,7 +36,7 @@ jobs:
   build-med-project:
     needs: build-base-php
     if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
-    uses: SmartMedSA/base-php/.github/workflows/medProjectWorkflow.yml@${{ env.GITHUB_SHA }}
+    uses: SmartMedSA/base-php/.github/workflows/medProjectWorkflow.yml@${{env.GITHUB_SHA}}
     with:
       REGISTRY: ghcr.io
       username: ${{ github.actor }}
