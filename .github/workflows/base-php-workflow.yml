@@ -49,6 +49,10 @@ jobs:
           images: ${{ inputs.REGISTRY }}/${{ inputs.IMAGE_OWNER }}/base-php
           flavor: |
             latest=false
+      - name: sabri
+        run: |
+          pwd
+        shell: bash
 
       - name: Set up Docker Buildx
         id: buildx
