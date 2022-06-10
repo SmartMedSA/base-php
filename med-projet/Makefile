@@ -1,5 +1,6 @@
 SHELL := /bin/bash
 
+NAME = app
 APP_SERVICE_NAME := app
 XDEBUG_SERVICE_NAME := xdebug
 TEST_SERVICE_NAME := test
@@ -10,12 +11,6 @@ ifeq ($(REPO),)
     # Emulate docker-compose repo structure.
 	REPO = $(shell basename $(CURDIR))_$(APP_SERVICE_NAME)
 endif
-
-NAME = app
-UID = $(shell id -u)
-GID = $(shell id -g)
-
-DOCKER_COMPOSE_CMD := env UID=${UID} GID=${GID} docker-compose
 
 ifeq ($(IMAGE_TAG),)
     IMAGE_TAG ?= latest
@@ -106,36 +101,40 @@ dcps:
 
 # New line before the ps.
 	@echo
-	@$(DOCKER_COMPOSE_CMD) ps -a
+	@bin/docker-compose ps -a
 
 # Rebuild images, remove orphans, and docker-compose up.
 dcupd:
-	$(DOCKER_COMPOSE_CMD) up -d --build --remove-orphans
+	bin/docker-compose up -d --build --remove-orphans
+
+# Rebuild images, remove orphans, and docker-compose up.
+dcdown:
+	bin/docker-compose down --remove-orphans
 
 # Stop all runner containers.
 dcstop:
-	$(DOCKER_COMPOSE_CMD) stop
+	bin/docker-compose stop
 
 # Get app-name container logs.
 dclogs:
-	$(DOCKER_COMPOSE_CMD) logs --tail=100 -f $(APP_SERVICE_NAME)
+	bin/docker-compose logs --tail=100 -f $(APP_SERVICE_NAME)
 
 # Get a bash inside running app-name container.
 dcshell:
-	$(DOCKER_COMPOSE_CMD) exec $(APP_SERVICE_NAME) bash
+	bin/docker-compose exec $(APP_SERVICE_NAME) bash
 
 # Start app-name with xdebug enabled.
 dcxdbg:
-	$(DOCKER_COMPOSE_CMD) --profile $(XDEBUG_SERVICE_NAME) up -d --build --remove-orphans
-	$(DOCKER_COMPOSE_CMD) --profile $(XDEBUG_SERVICE_NAME) logs --tail=100 -f $(XDEBUG_SERVICE_NAME)
+	bin/docker-compose --profile $(XDEBUG_SERVICE_NAME) up -d --build --remove-orphans
+	bin/docker-compose --profile $(XDEBUG_SERVICE_NAME) logs --tail=100 -f $(XDEBUG_SERVICE_NAME)
 
 # Start app-name test
 dctest:
-	$(DOCKER_COMPOSE_CMD) --profile $(TEST_SERVICE_NAME) run --rm test composer test
+	bin/docker-compose --profile $(TEST_SERVICE_NAME) run --rm test composer test
 
 dccheck:
-	$(DOCKER_COMPOSE_CMD) --profile $(TEST_SERVICE_NAME) run --rm test composer check
+	bin/docker-compose --profile $(TEST_SERVICE_NAME) run --rm test composer check
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Include the .d makefiles.
--include makefiles.d
+-include makefiles.d/*
