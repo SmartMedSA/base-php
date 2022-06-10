@@ -5,14 +5,13 @@ on:
     branches:
       - 'master'
       - 'develop'
-      - 'delete_image_feature'
     tags:
       - '**'
   pull_request:
     branches:
       - 'develop'
       - 'master'
-    types: [ opened , closed ,  edited ]
+    types: [ opened , closed ,  edited , reopened ]
 
 env:
   REGISTRY: ghcr.io

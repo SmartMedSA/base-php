@@ -29,9 +29,6 @@ jobs:
       packages: write
 
     steps:
-      - name: Dump context
-        uses: crazy-max/ghaction-dump-context@v1
-
       - name: checkout
         uses: actions/checkout@v3
 
