@@ -22,7 +22,7 @@ env:
 
 jobs:
   build-base-php:
-    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
+    if: ((github.event.action != 'closed' && github.event.pull_request.merged != true))
     uses: ./.github/workflows/base-php-workflow.yml
     with:
       REGISTRY: ghcr.io
@@ -34,7 +34,7 @@ jobs:
 
   build-med-project:
     needs: build-base-php
-    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
+    if: ((github.event.action != 'closed' && github.event.pull_request.merged != true))
     uses: ./.github/workflows/med-project-workflow.yml
     with:
       REGISTRY: ghcr.io
@@ -46,6 +46,7 @@ jobs:
 
 
   delete-docker-image:
+    if: ((github.event.action == 'closed' || github.event.pull_request.merged == true))
     uses: ./.github/workflows/delete-docker-image-workflow.yml
     with:
       REGISTRY: ghcr.io
