@@ -52,5 +52,6 @@ jobs:
       REGISTRY: ghcr.io
       username: ${{ github.actor }}
       IMAGE_OWNER: smartmedsa
+      TAG: pr-${{ github.event.number }}
     secrets:
       token: ${{ secrets.SMARTMEDBOT_PAT }}
