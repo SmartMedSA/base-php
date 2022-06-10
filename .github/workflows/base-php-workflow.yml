@@ -57,6 +57,8 @@ jobs:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
+            ${{ runner.os }}-buildx-${{ github.sha }}
+            ${{ runner.os }}-buildx-develop
             ${{ runner.os }}-buildx-
 
       - name: Build and cache
