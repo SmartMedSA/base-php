@@ -36,7 +36,7 @@ jobs:
   build-med-project:
     needs: build-base-php
     if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
-    uses: ./.github/workflows/medProjectWorkflow.yml
+    uses: ./.github/workflows/med-project-workflow.yml
     with:
       REGISTRY: ghcr.io
       username: ${{ github.actor }}
