@@ -78,9 +78,7 @@ jobs:
 
       - name: run test
         run: |
-          pwd
           cd med-projet
-          pwd
           make dctest
         shell: bash
 
@@ -103,8 +101,6 @@ jobs:
 
       - name: run check
         run: |
-          pwd
           cd med-projet
-          pwd
           make dccheck
         shell: bash
