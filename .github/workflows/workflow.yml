@@ -12,7 +12,7 @@ on:
     branches:
       - 'develop'
       - 'master'
-    types: [ opened , closed ,  edited ]
+    types: [ opened , closed ,  edited , reopened ]
 
 env:
   REGISTRY: ghcr.io
