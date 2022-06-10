@@ -46,7 +46,7 @@ jobs:
 
 
   delete-docker-image:
-    uses: ./.github/workflows/med-project-workflow.yml
+    uses: ./.github/workflows/delete-docker-image-workflow.yml
     with:
       REGISTRY: ghcr.io
       username: ${{ github.actor }}
