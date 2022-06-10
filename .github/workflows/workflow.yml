@@ -11,7 +11,7 @@ on:
     branches:
       - 'develop'
       - 'master'
-    types: [ opened , closed ,  edited ]
+    types: [ opened , closed ,  edited , reopened ]
 
 env:
   REGISTRY: ghcr.io
@@ -21,7 +21,7 @@ env:
 
 jobs:
   build-base-php:
-    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
+    if: ((github.event.action != 'closed' && github.event.pull_request.merged != true))
     uses: ./.github/workflows/base-php-workflow.yml
     with:
       REGISTRY: ghcr.io
@@ -33,7 +33,7 @@ jobs:
 
   build-med-project:
     needs: build-base-php
-    if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
+    if: ((github.event.action != 'closed' && github.event.pull_request.merged != true))
     uses: ./.github/workflows/med-project-workflow.yml
     with:
       REGISTRY: ghcr.io
@@ -44,17 +44,13 @@ jobs:
       token: ${{ secrets.GITHUB_TOKEN }}
 
 
-
   delete-docker-image:
     if: ((github.event.action == 'closed' || github.event.pull_request.merged == true))
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-
-      - name: Dump context
-        uses: crazy-max/ghaction-dump-context@v1
+    uses: ./.github/workflows/delete-docker-image-workflow.yml
+    with:
+      REGISTRY: ghcr.io
+      username: ${{ github.actor }}
+      IMAGE_OWNER: smartmedsa
+      TAG: pr-${{ github.event.number }}
+    secrets:
+      token: ${{ secrets.SMARTMEDBOT_PAT }}
