@@ -5,14 +5,14 @@ on:
     branches:
       - 'master'
       - 'develop'
-      - 'packaging_med_project'
+      - 'caching_docker_layers_feature'
     tags:
       - '**'
   pull_request:
     branches:
       - 'develop'
       - 'master'
-      - 'packaging_med_project'
+      - 'caching_docker_layers_feature'
     types: [ opened , closed ,  edited ]
 
 env:
@@ -24,7 +24,7 @@ env:
 jobs:
   build-base-php:
     if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
-    uses: SmartMedSA/base-php/.github/workflows/base-php-workflow.yml@packaging_med_project
+    uses: ./.github/workflows/base-php-workflow.yml
     with:
       REGISTRY: ghcr.io
       username: ${{ github.actor }}
@@ -36,7 +36,7 @@ jobs:
   build-med-project:
     needs: build-base-php
     if: (!(github.event.action == 'closed' && github.event.pull_request.merged != true))
-    uses: SmartMedSA/base-php/.github/workflows/medProjectWorkflow.yml@packaging_med_project
+    uses: ./.github/workflows/med-project-workflow.yml
     with:
       REGISTRY: ghcr.io
       username: ${{ github.actor }}
