@@ -14,7 +14,7 @@ x-app: &app
   ports:
     - "8080"
   volumes:
-    - ./:/var/www
+    - ./:/var/www/app
 
 services:
   app:
