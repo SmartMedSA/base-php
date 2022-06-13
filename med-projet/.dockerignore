@@ -1,5 +1,6 @@
 .idea/
-.env*
+.env
+.env.test
 vendor/
 var/
 .vlm/
