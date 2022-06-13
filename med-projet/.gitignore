@@ -35,7 +35,7 @@
 !bin/symfony_requirements
 !bin/docker-compose
 /vendor/
-
+.cache
 # Assets and user uploads
 /web/bundles/
 /web/uploads/
