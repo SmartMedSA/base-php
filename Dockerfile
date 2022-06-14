@@ -1,31 +1,28 @@
-FROM spiralscout/roadrunner:2.6.4 as rr
-
 FROM php:8.0.19-cli
 
 SHELL ["/bin/bash", "-c"]
 
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-
-ENV APP_ROOT="/var/www"
+ENV APP_ROOT="/var/www/app"
 
 RUN set -xe; \
     \
     apt-get update \
     && apt-get install -y --no-install-recommends \
-    locales \
     apt-utils \
+    g++ \
     git \
     libicu-dev \
-    g++ \
-    libpng-dev \
-    libxml2-dev \
-    libzip-dev \
     libonig-dev \
-    libxslt-dev \
+    libpng-dev \
     librabbitmq-dev \
+    libssh-dev \
+    libxml2-dev \
+    libxslt-dev \
+    libzip-dev \
+    locales \
     sudo \
-    zlib1g-dev \
-    libssh-dev ; \
+    wait-for-it \
+    zlib1g-dev; \
     \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen && \
@@ -36,39 +33,41 @@ RUN set -xe; \
     curl -sL "${gotpl_url}" | tar xz --no-same-owner -C /usr/local/bin; \
     \
     docker-php-ext-install \
-    pdo \
-    pdo_mysql \
-    gd \
-    opcache \
-    intl \
-    zip \
-    pcntl \
+    bcmath \
     calendar \
     dom \
-    pcntl \
-    mbstring \
-    zip \
     gd \
+    gd \
+    intl \
+    mbstring \
+    opcache \
+    pcntl \
+    pcntl \
+    pdo \
+    pdo_mysql \
+    sockets \
     xsl \
-    bcmath \
-    sockets; \
+    zip \
+    zip; \
     \
     pecl install \
+    amqp-1.11.0beta \
     apcu \
-    xdebug \
     redis-5.3.4 \
-    amqp-1.11.0beta; \
+    xdebug; \
     \
     docker-php-ext-enable \
-    redis \
+    amqp \
     apcu \
-    xdebug \
-    amqp; \
+    redis \
+    xdebug; \
     \
-    docker-php-ext-configure intl;
+    docker-php-ext-configure \
+    intl;
 
 # Create a group and user.
-RUN groupadd --gid 2000 www-data && useradd --shell /bin/bash --gid 2000 --uid 2000 www-data; \
+RUN set -xe; \
+    \
     install -o www-data -g www-data -d \
         "${APP_ROOT}"; \
     chown -R www-data:www-data \
@@ -79,12 +78,15 @@ RUN groupadd --gid 2000 www-data && useradd --shell /bin/bash --gid 2000 --uid 2
          echo 'www-data ALL=NOPASSWD: /usr/local/bin/init_container ' ; \
      } | tee /etc/sudoers.d/www-data;
 
-# Copy RoadRunner.
-COPY --from=rr /usr/bin/rr /usr/bin/rr
+# Add latest composer version.
+COPY --from=composer:2.3 /usr/bin/composer /usr/local/bin/composer
+# Add RoadRunner.
+COPY --from=spiralscout/roadrunner:2.6.4 /usr/bin/rr /usr/bin/rr
+
+WORKDIR "${APP_ROOT}"
+USER www-data
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-USER www-data
-WORKDIR ${APP_ROOT}
 
 COPY docker/php/templates /etc/gotpl
 COPY docker/php/docker-entrypoint.sh /

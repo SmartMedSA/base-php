@@ -33,8 +33,11 @@
 /bin/*
 !bin/console
 !bin/symfony_requirements
+!bin/docker-compose
 /vendor/
-
+.cache
+.composer
+.pdepend
 # Assets and user uploads
 /web/bundles/
 /web/uploads/
@@ -59,3 +62,5 @@
 .composer/
 
 .phpunit.result.cache
+.php_cs.cache
+

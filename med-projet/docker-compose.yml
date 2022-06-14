@@ -1,34 +1,33 @@
 version: '3'
+
+x-app: &app
+  build:
+    context: .
+    args:
+      UID: ${UID}
+      GID: ${GID}
+      BASE_PHP_TAG: ${BASE_PHP_TAG}
+  env_file:
+    - docker-compose.env
+  environment:
+    PHP_CLI_MEMORY_LIMIT: "1024M"
+  ports:
+    - "8080"
+  volumes:
+    - ./:/var/www/app
+
 services:
-
-  app: &app
-    image: app
-    build:
-      context: .
-      args:
-        UID: ${UID}
-        GID: ${GID}
+  app:
+    <<: *app
     command: ["rr", "serve", "-c", ".rr.dev.yaml"]
-    env_file:
-      - .env.local
-    environment:
-      - PHP_CLI_MEMORY_LIMIT="1024M"
-    ports:
-      - "8080"
-    volumes:
-      - ./:/var/www
-    networks:
-      - dev
-
 
   xdebug:
     <<: *app
+    command: ["rr", "serve", "-c", ".rr.dev.yaml"]
     profiles: ["xdebug"]
     env_file:
-      - .env.local
+      - docker-compose.env
       - .env.xdebug
-    ports:
-      - "8080"
     extra_hosts:
       # https://stackoverflow.com/a/67158212
       # only works with Docker v20.10+
@@ -36,13 +35,9 @@ services:
 
   test:
     <<: *app
+    command: ["composer", "run", "test"]
     profiles:
       - test
     env_file:
-      - .env.local
+      - docker-compose.env
       - .env.test
-
-networks:
-  dev:
-    external: false
-    name: 'app_dev'
