@@ -36,6 +36,8 @@
 !bin/docker-compose
 /vendor/
 .cache
+.composer
+.pdepend
 # Assets and user uploads
 /web/bundles/
 /web/uploads/
