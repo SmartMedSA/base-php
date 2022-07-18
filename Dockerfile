@@ -22,6 +22,7 @@ RUN set -xe; \
     locales \
     sudo \
     wait-for-it \
+    zip \
     zlib1g-dev; \
     \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
