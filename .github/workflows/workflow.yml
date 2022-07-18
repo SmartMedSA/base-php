@@ -3,8 +3,8 @@ name: Build med project docker image
 on:
   push:
     branches:
-      - 'master'
       - 'develop'
+      - 'master'
     tags:
       - '**'
   pull_request:
@@ -29,20 +29,6 @@ jobs:
       IMAGE_OWNER: smartmedsa
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
-
-
-  build-med-project:
-    needs: build-base-php
-    if: ((github.event.action != 'closed' && github.event.pull_request.merged != true))
-    uses: ./.github/workflows/med-project-workflow.yml
-    with:
-      REGISTRY: ghcr.io
-      username: ${{ github.actor }}
-      IMAGE_OWNER: smartmedsa
-      TAG: ${{ needs.build-base-php.outputs.tag }}
-    secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
-
 
   delete-docker-image:
     if: ((github.event.action == 'closed' || github.event.pull_request.merged == true))
