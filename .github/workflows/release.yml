@@ -25,4 +25,4 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.SMARTMEDBOT_PAT }}
-        run: npx semantic-release --dry-run
+        run: npx semantic-release
