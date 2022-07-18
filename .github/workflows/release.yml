@@ -1,0 +1,28 @@
+name: Release
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.SMARTMEDBOT_PAT }} # `GH_PAT` is a secret that contains your PAT
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm i -g @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git semantic-release conventional-changelog-conventionalcommits
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.SMARTMEDBOT_PAT }}
+        run: npx semantic-release --dry-run
