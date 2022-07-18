@@ -1,4 +1,4 @@
-name: Build med project docker image
+name: Build Base PHP docker images
 
 on:
   push:
@@ -22,7 +22,7 @@ env:
 jobs:
   build-base-php:
     if: ((github.event.action != 'closed' && github.event.pull_request.merged != true))
-    uses: ./.github/workflows/base-php-workflow.yml
+    uses: ./.github/workflows/docker-build.yml
     with:
       REGISTRY: ghcr.io
       username: ${{ github.actor }}
@@ -32,7 +32,7 @@ jobs:
 
   delete-docker-image:
     if: ((github.event.action == 'closed' || github.event.pull_request.merged == true))
-    uses: ./.github/workflows/delete-docker-image-workflow.yml
+    uses: ./.github/workflows/docker-delete.yml
     with:
       REGISTRY: ghcr.io
       username: ${{ github.actor }}
