@@ -20,7 +20,7 @@ jobs:
           node-version: 14
 
       - name: Install dependencies
-        run: npm i -g @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git semantic-release conventional-changelog-conventionalcommits
+        run: npm i -g @semantic-release/changelog @semantic-release/commit-analyzer @semantic-release/git semantic-release conventional-changelog-conventionalcommits @saithodev/semantic-release-backmerge
 
       - name: Release
         env:
