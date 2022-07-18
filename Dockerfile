@@ -37,17 +37,14 @@ RUN set -xe; \
     calendar \
     dom \
     gd \
-    gd \
     intl \
     mbstring \
     opcache \
-    pcntl \
     pcntl \
     pdo \
     pdo_mysql \
     sockets \
     xsl \
-    zip \
     zip; \
     \
     pecl install \
