@@ -2,7 +2,6 @@
   "branches": [
     "master"
   ],
-  "tagFormat": "${version}",
   "plugins": [
     [
       "@semantic-release/commit-analyzer",
@@ -14,6 +13,8 @@
     [
       "@semantic-release/github",
       {
+        "successComment": false,
+        "failComment": false,
         "assets": [
           {
             "path": "build/**/*",
