@@ -1,4 +1,4 @@
-name: delete docker image
+name: Delete Docker Image
 
 on:
   workflow_call:
@@ -20,7 +20,7 @@ on:
         required: true
 
 jobs:
-  delete_docker_image:
+  delete:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout repository"
