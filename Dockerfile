@@ -1,4 +1,4 @@
-FROM php:8.0.19-cli
+FROM php:8.0.21-cli
 
 SHELL ["/bin/bash", "-c"]
 
