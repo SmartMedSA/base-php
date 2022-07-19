@@ -49,13 +49,12 @@ jobs:
           images: ${{ inputs.REGISTRY }}/${{ inputs.IMAGE_OWNER }}/base-php
           flavor: |
             latest=false
-            prefix=${{ matrix.version }}-
           tags: |
             type=schedule,pattern=nightly,enable=true,priority=1000
-            type=ref,event=branch,enable=true,priority=600
+            type=ref,event=branch,prefix=${{ matrix.version }}-,enable=true,priority=600
             type=ref,event=pr,prefix=${{ matrix.version }}-pr-,enable=true,priority=600
             type=semver,pattern=${{ matrix.version }}
-            type=semver,pattern=${{ matrix.version }}-{{ version }}
+            type=semver,pattern={{ version }},prefix=${{ matrix.version }}-
 
       - name: Set up Docker Buildx
         id: buildx
