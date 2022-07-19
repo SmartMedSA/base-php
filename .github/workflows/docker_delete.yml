@@ -21,6 +21,9 @@ on:
 
 jobs:
   delete:
+    strategy:
+      matrix:
+        version: ['8.0']
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout repository"
@@ -52,4 +55,4 @@ jobs:
           name: base-php
           # NOTE: using Personal Access Token
           token: ${{ secrets.token }}
-          tag: ${{ inputs.TAG }}
+          tag: ${{ matrix.version }}-${{ inputs.TAG }}
