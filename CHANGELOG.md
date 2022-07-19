@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/SmartMedSA/base-php/compare/v1.0.0...v1.1.0) (2022-07-19)
+
+
+### Features
+
+* **Dockerfile:** bump base image to version php:8.0.21-cli ([7a67630](https://github.com/SmartMedSA/base-php/commit/7a67630b6cb21ad10ecdcc07b6e908b9315afd2a))
+
 # 1.0.0 (2022-07-19)
 
 
