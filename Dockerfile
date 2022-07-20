@@ -2,7 +2,8 @@ FROM php:8.0.21-cli
 
 SHELL ["/bin/bash", "-c"]
 
-ENV APP_ROOT="/var/www/app"
+ENV APP_ROOT="/var/www/app" \
+    PHP_CLI_MEMORY_LIMIT="1024M"
 
 RUN set -xe; \
     \
